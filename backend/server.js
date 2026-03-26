@@ -13,16 +13,23 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 2. Middlewares (The "Logic" filters)
-app.use(cors()); // Allows frontend to talk to this API
+// --- UPDATED CORS CONFIGURATION ---
+app.use(cors({
+    origin: ["https://infra-health-vanguard.vercel.app", "http://localhost:5173"], 
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true
+})); 
+
 app.use(express.json()); // Parses incoming JSON data
 
 // 3. Database Connection (The "Data" Tier link)
+// Ensure MONGODB_URI matches your Render Environment settings
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('✅ Connected to MongoDB Atlas');
         
         // Start the background monitoring immediately after DB connects
-        console.log('⏱️  Starting Initial Health Check...');
+        console.log('⏱️ Starting Initial Health Check...');
         checkHealth(); 
     })
     .catch((err) => console.error('❌ MongoDB Connection Error:', err));
@@ -40,7 +47,6 @@ app.get('/', (req, res) => {
 });
 
 // 5. Background Task (Automation)
-// This runs the checkHealth function every 60 seconds (60000 ms)
 setInterval(() => {
     console.log('--- Scheduled Health Check Triggered ---');
     checkHealth();
@@ -48,5 +54,6 @@ setInterval(() => {
 
 // 6. Start Server
 app.listen(PORT, () => {
-    console.log(`🚀 Logic Tier is live on http://localhost:${PORT}`);
+    // Note: Render will ignore "localhost" and use its own dynamic port
+    console.log(`🚀 Logic Tier is live`);
 });

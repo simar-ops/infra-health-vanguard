@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Activity, CheckCircle, AlertCircle, RefreshCw, PlusCircle, Globe2, Trash2 } from 'lucide-react';
 
+// --- FIX: Use the Environment Variable from Vercel ---
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 function App() {
   const [targets, setTargets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +12,8 @@ function App() {
 
   const fetchStatus = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/targets/all');
+      // Updated to use the live Render URL
+      const response = await axios.get(`${API_BASE_URL}/api/targets/all`);
       setTargets(response.data);
       setLoading(false);
     } catch (error) {
@@ -18,12 +22,12 @@ function App() {
     }
   };
 
-  // --- NEW CHANGE: Clear All Logic ---
   const handleClearAll = async () => {
     if (window.confirm("Are you sure you want to delete all monitored services?")) {
       try {
-        await axios.delete('http://localhost:5000/api/targets/clear-all');
-        fetchStatus(); // Refresh the list
+        // Updated to use the live Render URL
+        await axios.delete(`${API_BASE_URL}/api/targets/clear-all`);
+        fetchStatus();
       } catch (error) {
         alert("Error clearing database.");
       }
@@ -33,7 +37,8 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/targets/add', formData);
+      // Updated to use the live Render URL
+      await axios.post(`${API_BASE_URL}/api/targets/add`, formData);
       setFormData({ websiteName: '', url: '' });
       fetchStatus();
     } catch (error) {
