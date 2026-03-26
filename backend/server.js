@@ -13,9 +13,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 2. Middlewares (The "Logic" filters)
-// --- UPDATED CORS CONFIGURATION ---
+// --- UPDATED FOR CUSTOM SUBDOMAINS ---
 app.use(cors({
-    origin: ["https://infra-health-vanguard.vercel.app", "http://localhost:5173"], 
+    origin: [
+        "https://monitor.simarpreet.in", // Your new custom frontend
+        "https://infra-health-vanguard.vercel.app", // Keeping old Vercel for backup
+        "http://localhost:5173" // For local development
+    ], 
     methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true
 })); 
@@ -54,6 +58,5 @@ setInterval(() => {
 
 // 6. Start Server
 app.listen(PORT, () => {
-    // Note: Render will ignore "localhost" and use its own dynamic port
     console.log(`🚀 Logic Tier is live`);
 });
