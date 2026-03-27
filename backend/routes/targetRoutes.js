@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Target = require('../models/Target');
 
-// Existing Route: Add a target
+// 1. Add a target
+// Frontend calls: ${API_BASE_URL}/api/targets/add
 router.post('/add', async (req, res) => {
     try {
         const newTarget = new Target(req.body);
@@ -13,8 +14,9 @@ router.post('/add', async (req, res) => {
     }
 });
 
-// Existing Route: Get all targets
-router.get('/all', async (req, res) => {
+// 2. Get all targets (RENAME THIS FROM /all TO /status)
+// Frontend calls: ${API_BASE_URL}/api/targets/status
+router.get('/status', async (req, res) => {
     try {
         const targets = await Target.find();
         res.json(targets);
@@ -23,8 +25,8 @@ router.get('/all', async (req, res) => {
     }
 });
 
-// --- NEW CHANGE START ---
-// Route to delete all monitored websites
+// 3. Delete all monitored websites
+// Frontend calls: ${API_BASE_URL}/api/targets/clear-all
 router.delete('/clear-all', async (req, res) => {
     try {
         await Target.deleteMany({});
@@ -33,6 +35,5 @@ router.delete('/clear-all', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-// --- NEW CHANGE END ---
 
 module.exports = router;
