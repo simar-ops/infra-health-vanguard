@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Activity, Trash2, RefreshCw, Globe2, ArrowLeft, Plus } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Externalized Configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -207,6 +208,7 @@ function App() {
           </div>
         )}
       </div>
+      <SpeedInsights />
     </div>
   );
 }
