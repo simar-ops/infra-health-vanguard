@@ -103,7 +103,8 @@ function App() {
             gap: '15px', 
             fontSize: '2.8rem', 
             margin: '0 0 10px 0',
-            fontWeight: '700'
+            fontWeight: '700',
+            color: '#ffffff' // Explicitly set to white for visibility
           }}>
             <Activity size={40} color="#3b82f6" strokeWidth={2.5} /> 
             Infrastructure Monitor
